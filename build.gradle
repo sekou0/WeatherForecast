@@ -1,0 +1,38 @@
+plugins {
+    id 'org.springframework.boot' version '2.2.3.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'java'
+}
+
+group 'com.sesksoftware.demos.weatherforecast'
+version '1.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'junit:junit:4.12'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+task weatherForecast(type: JavaExec) {
+    group = "Weather Forecast"
+    description = "Weather java app"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'com.sesksoftware.demos.weatherforecast.WeatherForecast'
+
+    // api_key - replace if expired
+    args "8f112eb0810444a5b336a237f33d34ff"
+
+    if(project.hasProperty("city")) {
+        args findProperty("city")
+
+        if(project.hasProperty("day")) {
+            args findProperty("day")
+        }
+    }
+}
